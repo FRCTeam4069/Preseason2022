@@ -72,6 +72,10 @@ public class Drivetrain extends SubsystemBase {
         }
     }
 
+    public void shift() {
+        shiftGears();
+    }
+
     private void shiftGears() {
         if(currentGear == GEAR.HIGH) {
             shifter.set(Value.kReverse);
@@ -89,7 +93,7 @@ public class Drivetrain extends SubsystemBase {
     @Override
     public void simulationPeriodic() {}
 
-    enum GEAR {
+    public enum GEAR {
         HIGH,
         LOW;
     }

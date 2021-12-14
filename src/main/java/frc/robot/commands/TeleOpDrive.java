@@ -1,6 +1,6 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
@@ -8,9 +8,9 @@ import frc.robot.subsystems.Drivetrain;
 public class TeleOpDrive extends CommandBase {
     
     private Drivetrain drivetrain;
-    private GenericHID controller;
+    private XboxController controller;
 
-    public TeleOpDrive(Drivetrain drivetrain, GenericHID controller) {
+    public TeleOpDrive(Drivetrain drivetrain, XboxController controller) {
         this.drivetrain = drivetrain;
         this.controller = controller;
 
@@ -31,6 +31,12 @@ public class TeleOpDrive extends CommandBase {
             turnPercent = controller.getX(Hand.kRight);
         }
 
+        if(controller.getAButton()) {
+            drivetrain.shift(Drivetrain.GEAR.HIGH);
+        }
+        else if(controller.getBButton()) {
+            drivetrain.shift(Drivetrain.GEAR.LOW);
+        }
         drivetrain.basicDrive(velocityPercent, turnPercent);
     }
 
