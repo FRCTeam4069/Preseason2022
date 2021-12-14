@@ -6,12 +6,15 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Drivetrain extends SubsystemBase {
     
     Constants constants = new Constants();
+
+    GEAR currentGear;
 
     private CANSparkMax leftMaster;
     private CANSparkMax leftSlave;
@@ -39,6 +42,8 @@ public class Drivetrain extends SubsystemBase {
         rightEncoder.setDistancePerPulse(1);
 
         shifter = new DoubleSolenoid(constants.DT_SHIFTER_F, constants.DT_SHIFTER_B);
+
+        currentGear = GEAR.LOW;
     }
 
 
@@ -61,14 +66,32 @@ public class Drivetrain extends SubsystemBase {
         rightMaster.stopMotor();
     }
 
+    public void shift(GEAR gear) {
+        if(currentGear != gear) {
+            shiftGears();
+        }
+    }
 
-
-
+    private void shiftGears() {
+        if(currentGear == GEAR.HIGH) {
+            shifter.set(Value.kReverse);
+            currentGear = GEAR.LOW;
+        }
+        else if(currentGear == GEAR.HIGH) {
+            shifter.set(Value.kForward);
+            currentGear = GEAR.HIGH;
+        }
+    }
 
     @Override
     public void periodic() {}
 
     @Override
     public void simulationPeriodic() {}
+
+    enum GEAR {
+        HIGH,
+        LOW;
+    }
     
 }
