@@ -47,7 +47,6 @@ public class Drivetrain extends SubsystemBase {
         shifter = new DoubleSolenoid(constants.DT_SHIFTER_F, constants.DT_SHIFTER_B);
 
         imu = new PigeonIMU(constants.CB_TRANSLATOR_TALON_ID);
-        double heading = imu.getCompassHeading();
 
         currentGear = GEAR.LOW;
     }
@@ -94,7 +93,10 @@ public class Drivetrain extends SubsystemBase {
     }
 
     @Override
-    public void periodic() {}
+    public void periodic() {
+        double heading = imu.getCompassHeading();
+        System.out.println("Heading: " + heading);
+    }
 
     @Override
     public void simulationPeriodic() {}
