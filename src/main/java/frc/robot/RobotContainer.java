@@ -35,8 +35,8 @@ public class RobotContainer {
 
     controller1 = new XboxController(0);
 
-    drivetrain = new Drivetrain();
     climber = new Climber();
+    drivetrain = new Drivetrain(climber.pigeonTalon());
     
     operatiorControl = new TeleOpDrive(drivetrain, climber, controller1);
   }

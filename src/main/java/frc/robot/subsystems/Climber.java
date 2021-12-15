@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -14,6 +15,7 @@ public class Climber extends SubsystemBase {
     
     CANSparkMax liftRight;
     CANSparkMax liftLeft;
+    TalonSRX translator;
 
     DoubleSolenoid brake;
 
@@ -22,11 +24,12 @@ public class Climber extends SubsystemBase {
     public Climber() {
         liftRight = new CANSparkMax(constants.CB_RAISE_ONE_ID, MotorType.kBrushless);
         liftLeft = new CANSparkMax(constants.CB_RAISE_TWO_ID, MotorType.kBrushless);
+        translator = new TalonSRX(constants.CB_TRANSLATOR_TALON_ID);
 
         liftRight.getEncoder().setPosition(0);
         liftLeft.getEncoder().setPosition(0);
 
-        liftLeft.follow(liftRight);
+        liftLeft.follow(liftRight, true);
 
         state = BRAKE_STATE.DISENGAGED;
 
@@ -49,6 +52,10 @@ public class Climber extends SubsystemBase {
             brake.set(Value.kReverse);
             state = BRAKE_STATE.DISENGAGED;
         }
+    }
+
+    public TalonSRX pigeonTalon() {
+        return translator;
     }
     
     enum BRAKE_STATE {

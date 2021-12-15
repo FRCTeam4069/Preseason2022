@@ -1,11 +1,13 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.sensors.PigeonIMU;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -29,7 +31,7 @@ public class Drivetrain extends SubsystemBase {
 
     private PigeonIMU imu;
 
-    public Drivetrain() {
+    public Drivetrain(TalonSRX pigionTalon) {
         leftMaster = new CANSparkMax(constants.DT_LEFT_MASTER_ID, MotorType.kBrushless);
         leftSlave = new CANSparkMax(constants.DT_LEFT_SLAVE_ID, MotorType.kBrushless);
         rightMaster = new CANSparkMax(constants.DT_RIGHT_MASTER_ID, MotorType.kBrushless);
@@ -46,7 +48,7 @@ public class Drivetrain extends SubsystemBase {
 
         shifter = new DoubleSolenoid(constants.DT_SHIFTER_F, constants.DT_SHIFTER_B);
 
-        imu = new PigeonIMU(constants.CB_TRANSLATOR_TALON_ID);
+        imu = new PigeonIMU(pigionTalon);
 
         currentGear = GEAR.LOW;
     }
@@ -94,7 +96,7 @@ public class Drivetrain extends SubsystemBase {
 
     @Override
     public void periodic() {
-        imu.
+        
         double heading = imu.getCompassHeading();
         System.out.println("Heading: " + heading);
     }
