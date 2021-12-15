@@ -56,8 +56,8 @@ public class Drivetrain extends SubsystemBase {
         double leftOutput;
         double rightOutput;
 
-        leftOutput = velocityPercent - turnPercent;
-        rightOutput = velocityPercent + turnPercent;
+        leftOutput = velocityPercent + turnPercent;
+        rightOutput = -velocityPercent + turnPercent;
 
         System.out.println("Left Encoder: " + leftEncoder.getDistance());
         System.out.println("Right Encoder: " + rightEncoder.getDistance());
@@ -86,7 +86,7 @@ public class Drivetrain extends SubsystemBase {
             shifter.set(Value.kReverse);
             currentGear = GEAR.LOW;
         }
-        else if(currentGear == GEAR.HIGH) {
+        else if(currentGear == GEAR.LOW) {
             shifter.set(Value.kForward);
             currentGear = GEAR.HIGH;
         }
@@ -94,6 +94,7 @@ public class Drivetrain extends SubsystemBase {
 
     @Override
     public void periodic() {
+        imu.
         double heading = imu.getCompassHeading();
         System.out.println("Heading: " + heading);
     }

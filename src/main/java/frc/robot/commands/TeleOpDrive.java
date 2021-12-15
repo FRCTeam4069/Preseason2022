@@ -39,6 +39,7 @@ public class TeleOpDrive extends CommandBase {
 
         if(controller.getXButton()) climber.update(0.5);
         else if(controller.getYButton()) climber.update(-0.5);
+        else climber.update(0);
 
         drivetrain.basicDrive(velocityPercent, turnPercent);
     }
