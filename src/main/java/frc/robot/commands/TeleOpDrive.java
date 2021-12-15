@@ -3,16 +3,19 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
 
 public class TeleOpDrive extends CommandBase {
     
     private Drivetrain drivetrain;
     private XboxController controller;
+    private Climber climber;
 
-    public TeleOpDrive(Drivetrain drivetrain, XboxController controller) {
+    public TeleOpDrive(Drivetrain drivetrain, Climber climber, XboxController controller) {
         this.drivetrain = drivetrain;
         this.controller = controller;
+        this.climber = climber;
 
         addRequirements(this.drivetrain);
     }
@@ -31,12 +34,12 @@ public class TeleOpDrive extends CommandBase {
             turnPercent = controller.getX(Hand.kRight);
         }
 
-        if(controller.getAButton()) {
-            drivetrain.shift(Drivetrain.GEAR.HIGH);
-        }
-        else if(controller.getBButton()) {
-            drivetrain.shift(Drivetrain.GEAR.LOW);
-        }
+        if(controller.getAButton()) drivetrain.shift(Drivetrain.GEAR.HIGH);
+        else if(controller.getBButton()) drivetrain.shift(Drivetrain.GEAR.LOW);
+
+        if(controller.getXButton()) climber.update(0.5);
+        else if(controller.getYButton()) climber.update(-0.5);
+
         drivetrain.basicDrive(velocityPercent, turnPercent);
     }
 

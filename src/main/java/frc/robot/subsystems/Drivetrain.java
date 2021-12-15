@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.sensors.PigeonIMU;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -26,6 +27,8 @@ public class Drivetrain extends SubsystemBase {
 
     private DoubleSolenoid shifter;
 
+    private PigeonIMU imu;
+
     public Drivetrain() {
         leftMaster = new CANSparkMax(constants.DT_LEFT_MASTER_ID, MotorType.kBrushless);
         leftSlave = new CANSparkMax(constants.DT_LEFT_SLAVE_ID, MotorType.kBrushless);
@@ -42,6 +45,9 @@ public class Drivetrain extends SubsystemBase {
         rightEncoder.setDistancePerPulse(1);
 
         shifter = new DoubleSolenoid(constants.DT_SHIFTER_F, constants.DT_SHIFTER_B);
+
+        imu = new PigeonIMU(constants.CB_TRANSLATOR_TALON_ID);
+        double heading = imu.getCompassHeading();
 
         currentGear = GEAR.LOW;
     }
