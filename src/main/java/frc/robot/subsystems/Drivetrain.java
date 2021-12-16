@@ -43,6 +43,9 @@ public class Drivetrain extends SubsystemBase {
         leftEncoder = new Encoder(constants.DT_LEFT_ENC_A, constants.DT_LEFT_ENC_B, true, EncodingType.k1X);
         rightEncoder = new Encoder(constants.DT_RIGHT_ENC_A, constants.DT_RIGHT_ENC_B, false, EncodingType.k1X);
 
+        leftEncoder.reset();
+        rightEncoder.reset();
+
         leftEncoder.setDistancePerPulse(1);
         rightEncoder.setDistancePerPulse(1);
 
