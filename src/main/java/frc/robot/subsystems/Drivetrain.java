@@ -7,7 +7,6 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -99,9 +98,8 @@ public class Drivetrain extends SubsystemBase {
 
     @Override
     public void periodic() {
-        
-        double heading = imu.getCompassHeading();
-        System.out.println("Heading: " + heading);
+        double ypr[] = new double[3];
+        System.out.println("Heading: " + ypr[0]);
     }
 
     @Override

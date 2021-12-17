@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -47,6 +46,8 @@ public class Intake extends SubsystemBase {
         double kD = 0;
 
         output = error * kP + errorSum * kI + derr * kD;
+
+        dropDown.set(output);
 
         lastError = error;
         lastTime = currentTime;
