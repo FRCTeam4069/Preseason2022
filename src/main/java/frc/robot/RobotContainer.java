@@ -6,9 +6,11 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.commands.ShooterControl;
 import frc.robot.commands.TeleOpDrive;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /**
@@ -22,8 +24,10 @@ public class RobotContainer {
 
   Drivetrain drivetrain;
   Climber climber;
+  Shooter shooter;
 
-  TeleOpDrive operatiorControl;
+  TeleOpDrive operatorControl;
+  ShooterControl sControl;
 
   XboxController controller1;
 
@@ -37,8 +41,10 @@ public class RobotContainer {
 
     climber = new Climber();
     drivetrain = new Drivetrain(climber.pigeonTalon());
+    shooter = new Shooter();
     
-    operatiorControl = new TeleOpDrive(drivetrain, climber, controller1);
+    operatorControl = new TeleOpDrive(drivetrain, climber, controller1);
+    sControl = new ShooterControl(shooter, controller1);
   }
 
   /**
