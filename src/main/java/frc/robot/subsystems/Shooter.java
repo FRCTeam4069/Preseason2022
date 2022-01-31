@@ -19,20 +19,28 @@ public class Shooter extends SubsystemBase {
         bottomMotor = new TalonFX(9);
 
         //PID
-        bottomMotor.config_kP(0, 0.1);
+        bottomMotor.config_kP(0, 0.45);
         bottomMotor.config_kI(0, 0);
         bottomMotor.config_kD(0, 0);
 
         topMotor = new TalonFX(10);
-        topMotor.config_kP(0, 0.1);
+        topMotor.config_kP(0, 0.45);
         topMotor.config_kI(0, 0);
         topMotor.config_kD(0, 0);
     }
 
+    private double rpmToVelUnits(double rpm) {
+        return (rpm / 600) * cpr;
+    }
+
+    private double velUnitsToRPM(double velUnits) {
+        return (velUnits / cpr) * 600;
+    }
+
     public void update(double bottomOutputRPM, double topOutputRPM) {
         
-        double vTop = (topOutputRPM / 60000) * cpr;
-        double vBottom = (bottomOutputRPM / 60000) * cpr;
+        double vTop = rpmToVelUnits(topOutputRPM) * -1;
+        double vBottom = rpmToVelUnits(bottomOutputRPM) * -1;
 
         //Velocity tracking should be closed loop, in counts/100ms
         if(topMotor.getSupplyCurrent() < 50 && bottomMotor.getSupplyCurrent() < 50 && vTop != 0) {
@@ -44,8 +52,8 @@ public class Shooter extends SubsystemBase {
             topMotor.set(ControlMode.PercentOutput, 0);
         }
 
-        System.out.println("Top Vel: " + topMotor.getClosedLoopTarget() + topMotor.getClosedLoopError());
-        System.out.println("Bottom Vel: " + bottomMotor.getClosedLoopTarget() + bottomMotor.getClosedLoopError());
+        System.out.println("Top Vel: " + (topOutputRPM + velUnitsToRPM(topMotor.getClosedLoopError())));
+        System.out.println("Bottom Vel: " + (bottomOutputRPM + velUnitsToRPM(bottomMotor.getClosedLoopError())));
 
         System.out.println("Top Percent Output: " + topMotor.getMotorOutputPercent());
         System.out.println("Bottom Percent Output: " + bottomMotor.getMotorOutputPercent());
